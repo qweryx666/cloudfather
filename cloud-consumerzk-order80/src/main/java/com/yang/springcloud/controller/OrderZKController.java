@@ -1,0 +1,32 @@
+package com.yang.springcloud.controller;
+
+import com.yang.springcloud.entities.CommonResult;
+import com.yang.springcloud.entities.Payment;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.Resource;
+
+/**
+ * @author lenovo
+ * @description
+ * @date 2021/7/16 15:27
+ */
+@RestController
+@Slf4j
+public class OrderZKController {
+
+    //不能写死，我们有很多个机器提供这个服务
+    public static final String INVOKE_URL = "http://cloud-provide-payment";
+
+    @Resource
+    private RestTemplate restTemplate;
+
+    @GetMapping("/consumer/payment/zk")
+    public String paymentInfo(){
+        return restTemplate.getForObject(INVOKE_URL + "/payment/zk", String.class);
+    }
+}
